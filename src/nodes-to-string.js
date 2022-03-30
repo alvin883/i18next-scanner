@@ -1,4 +1,4 @@
-import _get from 'lodash/get';
+import _get from 'lodash/get.js';
 
 const isJSXText = (node) => {
     if (!node) {
@@ -37,7 +37,7 @@ const nodesToString = (nodes, code) => {
     let nodeIndex = 0;
     nodes.forEach((node, i) => {
         if (isJSXText(node) || isStringLiteral(node)) {
-            const value = (node.value)
+            const value = node.value
                 .replace(/^[\r\n]+\s*/g, '') // remove leading spaces containing a leading newline character
                 .replace(/[\r\n]+\s*$/g, '') // remove trailing spaces containing a leading newline character
                 .replace(/[\r\n]+\s*/g, ' '); // replace spaces containing a leading newline character with a single space character
@@ -52,17 +52,26 @@ const nodesToString = (nodes, code) => {
             if (isNumericLiteral(expression)) {
                 // Numeric literal is ignored in react-i18next
                 memo += '';
-            } if (isStringLiteral(expression)) {
+            }
+            if (isStringLiteral(expression)) {
                 memo += expression.value;
-            } else if (isObjectExpression(expression) && (_get(expression, 'properties[0].type') === 'Property')) {
+            } else if (
+                isObjectExpression(expression) &&
+                _get(expression, 'properties[0].type') === 'Property'
+            ) {
                 memo += `<${nodeIndex}>{{${expression.properties[0].key.name}}}</${nodeIndex}>`;
             } else {
-                console.error(`Unsupported JSX expression. Only static values or {{interpolation}} blocks are supported. Got ${expression.type}:`);
+                console.error(
+                    `Unsupported JSX expression. Only static values or {{interpolation}} blocks are supported. Got ${expression.type}:`
+                );
                 console.error(code.slice(node.start, node.end));
                 console.error(node.expression);
             }
         } else if (node.children) {
-            memo += `<${nodeIndex}>${nodesToString(node.children, code)}</${nodeIndex}>`;
+            memo += `<${nodeIndex}>${nodesToString(
+                node.children,
+                code
+            )}</${nodeIndex}>`;
         }
 
         ++nodeIndex;

@@ -2,11 +2,11 @@
 import fs from 'fs';
 import path from 'path';
 import eol from 'eol';
-import get from 'lodash/get';
-import includes from 'lodash/includes';
+import get from 'lodash/get.js';
+import includes from 'lodash/includes.js';
 import VirtualFile from 'vinyl';
 import through2 from 'through2';
-import Parser from './parser';
+import Parser from './parser.js';
 
 const transform = (parser, customTransform) => {
     return function _transform(file, enc, done) {
@@ -18,8 +18,8 @@ const transform = (parser, customTransform) => {
             // Parse attribute (e.g. data-i18n="key")
             parser.parseAttrFromString(content, {
                 transformOptions: {
-                    filepath: file.path
-                }
+                    filepath: file.path,
+                },
             });
         }
 
@@ -27,8 +27,8 @@ const transform = (parser, customTransform) => {
             // Parse translation function (e.g. i18next.t('key'))
             parser.parseFuncFromString(content, {
                 transformOptions: {
-                    filepath: file.path
-                }
+                    filepath: file.path,
+                },
             });
         }
 
@@ -36,8 +36,8 @@ const transform = (parser, customTransform) => {
             // Look for Trans components in JSX
             parser.parseTransFromString(content, {
                 transformOptions: {
-                    filepath: file.path
-                }
+                    filepath: file.path,
+                },
             });
         }
 
@@ -82,7 +82,8 @@ const flush = (parser, customFlush) => {
                     text = eol.lf(text);
                 } else if (lineEnding === '\r' || lineEnding === 'cr') {
                     text = eol.cr(text);
-                } else { // Defaults to LF
+                } else {
+                    // Defaults to LF
                     text = eol.lf(text);
                 }
 
@@ -96,10 +97,12 @@ const flush = (parser, customFlush) => {
                     contents = new Buffer(text);
                 }
 
-                this.push(new VirtualFile({
-                    path: resPath,
-                    contents: contents
-                }));
+                this.push(
+                    new VirtualFile({
+                        path: resPath,
+                        contents: contents,
+                    })
+                );
             });
         });
 
@@ -121,11 +124,7 @@ const createStream = (options, customTransform, customFlush) => {
     return stream;
 };
 
-// Convenience API
-module.exports = (...args) => module.exports.createStream(...args);
+const scaner = (...args) => createStream(...args);
 
-// Basic API
-module.exports.createStream = createStream;
-
-// Parser
-module.exports.Parser = Parser;
+export default scaner;
+export { Parser, createStream };

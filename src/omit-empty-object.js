@@ -1,4 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'lodash/isPlainObject.js';
 import cloneDeep from 'clone-deep';
 
 // omitEmptyObject({
@@ -16,7 +16,7 @@ import cloneDeep from 'clone-deep';
 // { a: { b: { c: 1 } } }
 //
 const unsetEmptyObject = (obj) => {
-    Object.keys(obj).forEach(key => {
+    Object.keys(obj).forEach((key) => {
         if (!isPlainObject(obj[key])) {
             return;
         }

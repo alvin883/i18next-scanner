@@ -1,6 +1,7 @@
 {
-  "name": "i18next-scanner",
+  "name": "i18next-scanner-esm",
   "version": "3.1.0",
+  "type": "module",
   "description": "Scan your code, extract translation keys/values, and merge them into i18n resource files.",
   "homepage": "https://github.com/i18next/i18next-scanner",
   "author": "Cheton Wu <cheton@gmail.com>",
@@ -12,12 +13,11 @@
     }
   ],
   "bin": {
-    "i18next-scanner": "./bin/cli.js"
+    "i18next-scanner-esm": "./bin/cli.js"
   },
-  "main": "lib/index.js",
+  "main": "bin/index.js",
   "scripts": {
-    "prepublishOnly": "npm run eslint && npm run build && npm test",
-    "build": "babel ./src --out-dir ./lib",
+    "prepublishOnly": "npm run eslint && npm test",
     "eslint": "eslint ./src",
     "coverage": "nyc --reporter=lcov --reporter=text yarn test",
     "test": "tap test/*.js --no-timeout --node-arg=--require --node-arg=@babel/register --node-arg=--require --node-arg=core-js/stable --node-arg=--require --node-arg=regenerator-runtime/runtime"
@@ -58,7 +58,7 @@
     "deepmerge": "^4.0.0",
     "ensure-array": "^1.0.0",
     "eol": "^0.9.1",
-    "esprima-next": "^5.7.0",
+    "esprima-next": "^5.8.1",
     "gulp-sort": "^2.0.0",
     "i18next": "*",
     "lodash": "^4.0.0",

@@ -1,4 +1,4 @@
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'lodash/isPlainObject.js';
 
 // flattenObjectKeys({
 //   a: {
@@ -19,9 +19,11 @@ import isPlainObject from 'lodash/isPlainObject';
 //
 const flattenObjectKeys = (obj, keys = []) => {
     return Object.keys(obj).reduce((acc, key) => {
-        const o = ((isPlainObject(obj[key]) && Object.keys(obj[key]).length > 0) || (Array.isArray(obj[key]) && obj[key].length > 0))
-            ? flattenObjectKeys(obj[key], keys.concat(key))
-            : [keys.concat(key)];
+        const o =
+            (isPlainObject(obj[key]) && Object.keys(obj[key]).length > 0) ||
+            (Array.isArray(obj[key]) && obj[key].length > 0)
+                ? flattenObjectKeys(obj[key], keys.concat(key))
+                : [keys.concat(key)];
         return acc.concat(o);
     }, []);
 };
