@@ -12,14 +12,15 @@ import _ from 'lodash';
 import parse5 from 'parse5';
 import sortObject from 'sortobject';
 import i18next from 'i18next';
+import { createRequire } from 'module';
 import jsxwalk from './acorn-jsx-walk.js';
 import flattenObjectKeys from './flatten-object-keys.js';
 import omitEmptyObject from './omit-empty-object.js';
 import nodesToString from './nodes-to-string.js';
 
-import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const esprima = require('esprima-next');
+
 const { parse } = esprima;
 
 i18next.init({
@@ -253,12 +254,16 @@ const getPluralSuffixes = (lng, pluralSeparator = '_') => {
  */
 class Parser {
     options = { ...defaults };
+
     // The resStore stores all translation keys including unused ones
     resStore = {};
+
     // The resScan only stores translation keys parsed from code
     resScan = {};
+
     // The all plurals suffixes for each of target languages.
     pluralSuffixes = {};
+
     constructor(options) {
         this.options = normalizeOptions({
             ...this.options,
@@ -297,6 +302,7 @@ class Parser {
         });
         this.log(`options=${JSON.stringify(this.options, null, 2)}`);
     }
+
     log(...args) {
         const { debug } = this.options;
         if (debug) {
@@ -306,9 +312,11 @@ class Parser {
             );
         }
     }
+
     error(...args) {
         console.error.apply(this, [chalk.red('i18next-scanner:')].concat(args));
     }
+
     formatResourceLoadPath(lng, ns) {
         const options = this.options;
         const regex = {
@@ -332,9 +340,10 @@ class Parser {
         return _.isFunction(options.resource.loadPath)
             ? options.resource.loadPath(lng, ns)
             : options.resource.loadPath
-                  .replace(regex.lng, lng)
-                  .replace(regex.ns, ns);
+                .replace(regex.lng, lng)
+                .replace(regex.ns, ns);
     }
+
     formatResourceSavePath(lng, ns) {
         const options = this.options;
         const regex = {
@@ -358,9 +367,10 @@ class Parser {
         return _.isFunction(options.resource.savePath)
             ? options.resource.savePath(lng, ns)
             : options.resource.savePath
-                  .replace(regex.lng, lng)
-                  .replace(regex.ns, ns);
+                .replace(regex.lng, lng)
+                .replace(regex.ns, ns);
     }
+
     fixStringAfterRegExp(strToFix) {
         let fixedString = _.trim(strToFix); // Remove leading and trailing whitespace
         const firstChar = fixedString[0];
@@ -368,7 +378,7 @@ class Parser {
         if (firstChar === '`' && fixedString.match(/\${.*?}/)) {
             return null;
         }
-        if (_.includes(["'", '"', '`'], firstChar)) {
+        if (_.includes(['\'', '"', '`'], firstChar)) {
             // Remove first and last character
             fixedString = fixedString.slice(1, -1);
         }
@@ -392,6 +402,7 @@ class Parser {
         );
         return fixedString;
     }
+
     // i18next.t('ns:foo.bar') // matched
     // i18next.t("ns:foo.bar") // matched
     // i18next.t('ns:foo.bar') // matched
@@ -425,7 +436,7 @@ class Parser {
             '"(?:[^"\\\\]|\\\\(?:.|$))*"' +
             '|' +
             // single quote ('')
-            "'(?:[^'\\\\]|\\\\(?:.|$))*'" +
+            '\'(?:[^\'\\\\]|\\\\(?:.|$))*\'' +
             ')' +
             matchSpecialCharacters;
         const pattern =
@@ -506,6 +517,7 @@ class Parser {
         }
         return this;
     }
+
     // Parses translation keys from `Trans` components in JSX
     // <Trans i18nKey="some.key">Default text</Trans>
     parseTransFromString(content, opts = {}, customHandler = null) {
@@ -582,8 +594,7 @@ class Parser {
                                     obj[property.key.name] =
                                         property.value.quasis
                                             .map(
-                                                (element) =>
-                                                    element.value.cooked
+                                                (element) => element.value.cooked
                                             )
                                             .join('');
                                 } else {
@@ -671,6 +682,7 @@ class Parser {
         }
         return this;
     }
+
     // Parses translation keys from `data-i18n` attribute in HTML
     // <div data-i18n="[attr]ns:foo.bar;[attr]ns:foo.baz">
     // </div>
@@ -725,6 +737,7 @@ class Parser {
         walk(ast.childNodes);
         return this;
     }
+
     // Get the value of a translation key or the whole resource store containing translation information
     // @param {string} [key] The translation key
     // @param {object} [opts] The opts object
@@ -814,6 +827,7 @@ class Parser {
         }
         return resStore;
     }
+
     // Set translation key with an optional defaultValue to i18n resource store
     // @param {string} key The translation key
     // @param {object} [options] The options object
@@ -828,9 +842,7 @@ class Parser {
         // Backward compatibility
         if (_.isString(options)) {
             const defaultValue = options;
-            options = {
-                defaultValue: defaultValue,
-            };
+            options = { defaultValue: defaultValue };
         }
         const nsSeparator =
             options.nsSeparator !== undefined
@@ -870,9 +882,9 @@ class Parser {
                 key = options.fallbackKey(ns, options.defaultValue);
             }
             if (!key) {
-                // Ignore empty key
                 return;
             }
+
             keys = [key];
         }
         const {
@@ -938,6 +950,7 @@ class Parser {
                     if (_.isUndefined(options.context)) {
                         return false;
                     }
+
                     return _.isFunction(context)
                         ? context(lng, ns, key, options)
                         : !!context;
@@ -950,6 +963,7 @@ class Parser {
                     if (_.isUndefined(options.count)) {
                         return false;
                     }
+
                     return _.isFunction(plural)
                         ? plural(lng, ns, key, options)
                         : !!plural;
@@ -1061,12 +1075,15 @@ class Parser {
             });
         });
     }
-    // Returns a JSON string containing translation information
-    // @param {object} [options] The options object
-    // @param {boolean} [options.sort] True to sort object by key
-    // @param {function|string[]|number[]} [options.replacer] The same as the JSON.stringify()
-    // @param {string|number} [options.space] The same as the JSON.stringify() method
-    // @return {string}
+
+    /**
+     * Returns a JSON string containing translation information
+     * @param {object} [options] The options object
+     * @param {boolean} [options.sort] True to sort object by key
+     * @param {function|string[]|number[]} [options.replacer] The same as the JSON.stringify()
+     * @param {string|number} [options.space] The same as the JSON.stringify() method
+     * @return {string}
+     */
     toJSON(options = {}) {
         const { replacer, space, ...others } = options;
         return JSON.stringify(this.get(others), replacer, space);

@@ -3,7 +3,7 @@ import { Parser } from "acorn";
 import jsx from "acorn-jsx";
 import ensureArray from "ensure-array";
 import _get from "lodash/get.js";
-import nodesToString from "../src/nodes-to-string";
+import nodesToString from "../src/nodes-to-string.js";
 
 const jsxToString = (code) => {
     try {

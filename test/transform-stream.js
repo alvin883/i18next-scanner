@@ -5,7 +5,7 @@ import gulp from 'gulp';
 import tap from 'gulp-tap';
 import VirtualFile from 'vinyl';
 import { test } from 'tap';
-import scanner from '../src';
+import scanner from '../src/index.js';
 
 const defaults = {
     debug: false,

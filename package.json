@@ -18,9 +18,9 @@
   "main": "bin/index.js",
   "scripts": {
     "prepublishOnly": "npm run eslint && npm test",
-    "eslint": "eslint ./src",
+    "eslint": "eslint ./src --format=visualstudio --fix",
     "coverage": "nyc --reporter=lcov --reporter=text yarn test",
-    "test": "tap test/*.js --no-timeout --node-arg=--require --node-arg=@babel/register --node-arg=--require --node-arg=core-js/stable --node-arg=--require --node-arg=regenerator-runtime/runtime"
+    "test": "tap test/*.js --no-timeout"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,11 @@ import fs from 'fs';
 import path from 'path';
 import sha1 from 'sha1';
 import { test } from 'tap';
-import { Parser } from '../src';
+import { fileURLToPath } from "url"
+import { Parser } from '../src/index.js';
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 test('set merges defaults', (t) => {
     const parser = new Parser({
