@@ -1,11 +1,11 @@
-# i18next-scanner [![build status](https://travis-ci.org/i18next/i18next-scanner-esm.svg?branch=master)](https://travis-ci.org/i18next/i18next-scanner-esm) [![Coverage Status](https://coveralls.io/repos/i18next/i18next-scanner-esm/badge.svg?branch=master&service=github)](https://coveralls.io/github/i18next/i18next-scanner-esm?branch=master)
+# i18next-scanner-esm [![build status](https://travis-ci.org/i18next/i18next-scanner-esm.svg?branch=master)](https://travis-ci.org/i18next/i18next-scanner-esm) [![Coverage Status](https://coveralls.io/repos/i18next/i18next-scanner-esm/badge.svg?branch=master&service=github)](https://coveralls.io/github/i18next/i18next-scanner-esm?branch=master)
 
 [![NPM](https://nodei.co/npm/i18next-scanner-esm.png?downloads=true&stars=true)](https://www.npmjs.com/package/i18next-scanner-esm)
 
 Scan your code, extract translation keys/values, and merge them into i18n resource files.
 
 ## Note
-This is a forked version of [i18next-scanner-esm](https://github.com/i18next/i18next-scanner), the reason is I want to use `type: "module"` on the package json of my project, thus I created this fork
+This is a forked version of [i18next-scanner](https://github.com/i18next/i18next-scanner), the reason is I want to use `type: "module"` on the package json of my project, thus I created this fork
 
 #### What's changed
 - No CJS output, only ESM
